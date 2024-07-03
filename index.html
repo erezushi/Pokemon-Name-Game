@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pokémon Name Game</title>
+        <link rel="stylesheet" href="./index.css" />
+        <script defer src="./index.js" type="module"></script>
+    </head>
+    <body>
+        <img
+            src="./images/PokéErez Logo.webp"
+            alt="Profile picture of the game's creator: PokéErez"
+            height="75px"
+        />
+        Name Game
+        <div id="game-body">
+            Name:&nbsp;
+            <span id="pokemon-name"></span>
+            <br />
+
+            <div id="hints">
+                <div id="language-hint" class="hidden">
+                    Language:&nbsp;
+                    <span id="language-text"></span>
+                    <br />
+                </div>
+                <div id="generation-hint" class="hidden">
+                    Generation:&nbsp;
+                    <span id="generation-text"></span>
+                    <br />
+                </div>
+                <div id="type-hint" class="hidden">
+                    Type:&nbsp;
+                    <span id="type-text"></span>
+                    <br />
+                </div>
+            </div>
+            <br />
+
+            <label id="player-input-label" for="player-input">Type your guess:</label>
+            <input type="text" id="player-input" />
+            <br />
+            <button id="make-guess">Guess</button>
+            <br />
+            <span id="guess-status" class="hidden"></span>
+            <br />
+
+            <div id="guesses"></div>
+
+            <div id="hint-buttons" class="hidden">
+                Need some hints?
+                <br />
+                <button id="language-button" class="hidden">Display Language</button>
+                <button id="generation-button" class="hidden">Display Generation</button>
+                <button id="type-button" class="hidden">Display Type</button>
+                <br />
+            </div>
+
+            <div id="game-win" class="hidden">
+                <img id="official-art" height="250px" width="250px" />
+                <br />
+                <span id="win-text"></span>
+                <br />
+                <button id="play-again">Play again!</button>
+            </div>
+        </div>
+        <br />
+        <div id="instructions-title">
+            How to play?
+            <br />
+        </div>
+        <div id="instructions">
+            You're given the official name of a Pokémon in a language that isn't English (but still
+            uses the latin alphabet),
+            <br />
+            and your job is to guess the English name.
+            <br />
+            <br />
+            To assist you, you can get up to three hints as you continue guessing;
+            <br />
+            the language the name is in (after 1 guess),
+            <br />
+            the generation the Pokémon is from (after 3 guesses),
+            <br />
+            and the Pokémon's typing (after 6 guesses).
+        </div>
+    </body>
+</html>
