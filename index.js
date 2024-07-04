@@ -23,16 +23,16 @@ const gameWinDiv = document.getElementById("game-win");
 const officialArt = document.getElementById("official-art");
 const winTextSpan = document.getElementById("win-text");
 const playAgain = document.getElementById("play-again");
+//#endregion
 
 const randomArrayEntry = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const answerFormat = (name) => name.trim().toLowerCase().replace(/[:.']/, "").replace("é", "e");
+const answerFormat = (name) => name.trim().toLowerCase().replace(/[:.']/, "").replaceAll("é", "e");
 const capitalize = (string) => `${string[0].toUpperCase()}${string.substring(1).toLowerCase()}`;
 const guessesFormat = (name) => name.trim().split(" ").map(capitalize).join(" ");
 const displayStatus = (message) => {
     guessStatus.innerText = message;
     guessStatus.classList.remove("hidden");
 };
-//#endregion
 
 let englishName;
 let allNames = [];
@@ -103,6 +103,7 @@ playerInput.addEventListener("input", () => guessStatus.classList.add("hidden"))
 
 guessButton.addEventListener("click", () => {
     const input = answerFormat(playerInput.value);
+    console.log(input);
 
     if (allNames.some((name) => answerFormat(name) === input)) {
         const answer = answerFormat(englishName);
