@@ -107,7 +107,7 @@ guessButton.addEventListener("click", () => {
 
             if (!guesses.length) {
                 const titleSpan = document.createElement("span");
-                titleSpan.innerText = "guesses:";
+                titleSpan.innerText = "Guesses:";
 
                 guessesDiv.appendChild(titleSpan);
                 guessesDiv.appendChild(document.createElement("br"));
@@ -174,6 +174,8 @@ playAgain.addEventListener("click", () => {
 
     guessesDiv.innerHTML = "";
     guesses = [];
+    availableHints = [];
+    updateHintButtons();
 
     setup();
 });
