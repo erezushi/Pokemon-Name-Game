@@ -1,5 +1,6 @@
 import pokemonList from "./pokemonList.js";
 
+//#region getElementById
 const pokemonNameSpan = document.getElementById("pokemon-name");
 const languageHint = document.getElementById("language-hint");
 const languageText = document.getElementById("language-text");
@@ -31,10 +32,18 @@ const displayStatus = (message) => {
     guessStatus.innerText = message;
     guessStatus.classList.remove("hidden");
 };
+//#endregion
 
 let englishName;
+let allNames = [];
 let guesses = [];
 let availableHints = [];
+
+fetch("allPokemon.txt")
+    .then((res) => res.text())
+    .then((text) => {
+        allNames = text.split("\n");
+    });
 
 const setup = () => {
     const chosenPokemon = randomArrayEntry(pokemonList);
@@ -95,7 +104,7 @@ playerInput.addEventListener("input", () => guessStatus.classList.add("hidden"))
 guessButton.addEventListener("click", () => {
     const input = answerFormat(playerInput.value);
 
-    if (pokemonList.some((nameObj) => answerFormat(nameObj.name) === input)) {
+    if (allNames.some((name) => answerFormat(name) === input)) {
         const answer = answerFormat(englishName);
 
         if (input === answer) {
@@ -126,7 +135,7 @@ guessButton.addEventListener("click", () => {
             displayStatus("You've already tried that one");
         }
     } else {
-        displayStatus("Maybe try guessing the name of a Pokémon that can be in this game");
+        displayStatus("Maybe try guessing an actual Pokémon name");
     }
 });
 
