@@ -1,37 +1,37 @@
-import pokemonList from "./pokemonList.js";
+import pokemonList from './pokemonList.js';
 
 //#region getElementById
-const pokemonNameSpan = document.getElementById("pokemon-name");
-const languageHint = document.getElementById("language-hint");
-const languageText = document.getElementById("language-text");
-const generationHint = document.getElementById("generation-hint");
-const generationText = document.getElementById("generation-text");
-const typeHint = document.getElementById("type-hint");
-const typeText = document.getElementById("type-text");
+const pokemonNameSpan = document.getElementById('pokemon-name');
+const languageHint = document.getElementById('language-hint');
+const languageText = document.getElementById('language-text');
+const generationHint = document.getElementById('generation-hint');
+const generationText = document.getElementById('generation-text');
+const typeHint = document.getElementById('type-hint');
+const typeText = document.getElementById('type-text');
 
-const playerInput = document.getElementById("player-input");
-const guessButton = document.getElementById("make-guess");
-const guessStatus = document.getElementById("guess-status");
+const playerInput = document.getElementById('player-input');
+const guessButton = document.getElementById('make-guess');
+const guessStatus = document.getElementById('guess-status');
 
-const guessesDiv = document.getElementById("guesses");
-const hintsDiv = document.getElementById("hint-buttons");
-const languageButton = document.getElementById("language-button");
-const generationButton = document.getElementById("generation-button");
-const typeButton = document.getElementById("type-button");
+const guessesDiv = document.getElementById('guesses');
+const hintsDiv = document.getElementById('hint-buttons');
+const languageButton = document.getElementById('language-button');
+const generationButton = document.getElementById('generation-button');
+const typeButton = document.getElementById('type-button');
 
-const gameWinDiv = document.getElementById("game-win");
-const officialArt = document.getElementById("official-art");
-const winTextSpan = document.getElementById("win-text");
-const playAgain = document.getElementById("play-again");
+const gameWinDiv = document.getElementById('game-win');
+const officialArt = document.getElementById('official-art');
+const winTextSpan = document.getElementById('win-text');
+const playAgain = document.getElementById('play-again');
 //#endregion
 
 const randomArrayEntry = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const answerFormat = (name) => name.trim().toLowerCase().replace(/[:.']/, "").replaceAll("é", "e");
+const answerFormat = (name) => name.trim().toLowerCase().replace(/[:.']/, '').replaceAll('é', 'e');
 const capitalize = (string) => `${string[0].toUpperCase()}${string.substring(1).toLowerCase()}`;
-const guessesFormat = (name) => name.trim().split(" ").map(capitalize).join(" ");
+const guessesFormat = (name) => name.trim().split(' ').map(capitalize).join(' ');
 const displayStatus = (message) => {
     guessStatus.innerText = message;
-    guessStatus.classList.remove("hidden");
+    guessStatus.classList.remove('hidden');
 };
 
 let englishName;
@@ -39,10 +39,10 @@ let allNames = [];
 let guesses = [];
 let availableHints = [];
 
-fetch("allPokemon.txt")
+fetch('allPokemon.txt')
     .then((res) => res.text())
     .then((text) => {
-        allNames = text.split("\n");
+        allNames = text.split('\n');
     });
 
 const setup = () => {
@@ -62,34 +62,46 @@ const setup = () => {
         chosenLanguage
     )} name!`;
 
-    officialArt.src = `./images/${englishName.replace(":", "")}.webp`;
+    winTextSpan.appendChild(document.createElement('br'));
+
+    const nameOriginLink = document.createElement('a');
+    nameOriginLink.href = `https://bulbapedia.bulbagarden.net/wiki/${englishName.replace(
+        ' ',
+        '_'
+    )}_(Pokémon)#In_other_languages`;
+    nameOriginLink.innerText = 'Check out their foreign name origins on Bulbapedia!';
+    nameOriginLink.target = '_blank';
+
+    winTextSpan.appendChild(nameOriginLink);
+
+    officialArt.src = `./images/${englishName.replace(':', '')}.webp`;
     officialArt.alt = `Official artwork of ${englishName}, the correct guess in this round`;
 };
 setup();
 
 const updateHintButtons = () => {
     if (availableHints.length) {
-        hintsDiv.classList.remove("hidden");
+        hintsDiv.classList.remove('hidden');
     } else {
-        hintsDiv.classList.add("hidden");
+        hintsDiv.classList.add('hidden');
     }
 };
 
 const checkForHints = () => {
     switch (guesses.length) {
         case 1:
-            availableHints.push("language");
-            languageButton.classList.remove("hidden");
+            availableHints.push('language');
+            languageButton.classList.remove('hidden');
             break;
 
         case 3:
-            availableHints.push("generation");
-            generationButton.classList.remove("hidden");
+            availableHints.push('generation');
+            generationButton.classList.remove('hidden');
             break;
 
         case 6:
-            availableHints.push("type");
-            typeButton.classList.remove("hidden");
+            availableHints.push('type');
+            typeButton.classList.remove('hidden');
             break;
 
         default:
@@ -99,9 +111,9 @@ const checkForHints = () => {
     updateHintButtons();
 };
 
-playerInput.addEventListener("input", () => guessStatus.classList.add("hidden"));
+playerInput.addEventListener('input', () => guessStatus.classList.add('hidden'));
 
-guessButton.addEventListener("click", () => {
+guessButton.addEventListener('click', () => {
     const input = answerFormat(playerInput.value);
     console.log(input);
 
@@ -109,25 +121,25 @@ guessButton.addEventListener("click", () => {
         const answer = answerFormat(englishName);
 
         if (input === answer) {
-            gameWinDiv.classList.remove("hidden");
+            gameWinDiv.classList.remove('hidden');
             guessButton.disabled = true;
             playerInput.disabled = true;
         } else if (!guesses.map(answerFormat).includes(input)) {
-            displayStatus("Not quite right! try again");
+            displayStatus('Not quite right! try again');
 
             if (!guesses.length) {
-                const titleSpan = document.createElement("span");
-                titleSpan.innerText = "Guesses:";
+                const titleSpan = document.createElement('span');
+                titleSpan.innerText = 'Guesses:';
 
                 guessesDiv.appendChild(titleSpan);
-                guessesDiv.appendChild(document.createElement("br"));
+                guessesDiv.appendChild(document.createElement('br'));
             }
 
-            const newGuess = document.createElement("span");
+            const newGuess = document.createElement('span');
             newGuess.innerText = guessesFormat(playerInput.value);
 
             guessesDiv.appendChild(newGuess);
-            guessesDiv.appendChild(document.createElement("br"));
+            guessesDiv.appendChild(document.createElement('br'));
 
             guesses.push(answerFormat(playerInput.value));
 
@@ -136,7 +148,7 @@ guessButton.addEventListener("click", () => {
             displayStatus("You've already tried that one");
         }
     } else {
-        displayStatus("Maybe try guessing an actual Pokémon name");
+        displayStatus('Maybe try guessing an actual Pokémon name');
     }
 });
 
@@ -144,19 +156,19 @@ const handleHintClick = (hint) => {
     availableHints = availableHints.filter((item) => item !== hint);
 
     switch (hint) {
-        case "language":
-            languageButton.classList.add("hidden");
-            languageHint.classList.remove("hidden");
+        case 'language':
+            languageButton.classList.add('hidden');
+            languageHint.classList.remove('hidden');
             break;
 
-        case "generation":
-            generationButton.classList.add("hidden");
-            generationHint.classList.remove("hidden");
+        case 'generation':
+            generationButton.classList.add('hidden');
+            generationHint.classList.remove('hidden');
             break;
 
-        case "type":
-            typeButton.classList.add("hidden");
-            typeHint.classList.remove("hidden");
+        case 'type':
+            typeButton.classList.add('hidden');
+            typeHint.classList.remove('hidden');
             break;
 
         default:
@@ -166,23 +178,23 @@ const handleHintClick = (hint) => {
     updateHintButtons();
 };
 
-languageButton.addEventListener("click", () => handleHintClick("language"));
-generationButton.addEventListener("click", () => handleHintClick("generation"));
-typeButton.addEventListener("click", () => handleHintClick("type"));
+languageButton.addEventListener('click', () => handleHintClick('language'));
+generationButton.addEventListener('click', () => handleHintClick('generation'));
+typeButton.addEventListener('click', () => handleHintClick('type'));
 
-playAgain.addEventListener("click", () => {
-    languageHint.classList.add("hidden");
-    generationHint.classList.add("hidden");
-    typeHint.classList.add("hidden");
-    gameWinDiv.classList.add("hidden");
+playAgain.addEventListener('click', () => {
+    languageHint.classList.add('hidden');
+    generationHint.classList.add('hidden');
+    typeHint.classList.add('hidden');
+    gameWinDiv.classList.add('hidden');
 
     guessButton.disabled = false;
     playerInput.disabled = false;
 
-    playerInput.value = "";
+    playerInput.value = '';
     playerInput.focus();
 
-    guessesDiv.innerHTML = "";
+    guessesDiv.innerHTML = '';
     guesses = [];
     availableHints = [];
     updateHintButtons();
@@ -190,9 +202,9 @@ playAgain.addEventListener("click", () => {
     setup();
 });
 
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        if (gameWinDiv.classList.contains("hidden")) {
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        if (gameWinDiv.classList.contains('hidden')) {
             guessButton.click();
         } else {
             playAgain.click();

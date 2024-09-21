@@ -56,6 +56,10 @@ button {
     font-size: small;
 }
 
+#game-win a {
+    font-size: medium;
+}
+
 #instructions {
     font-size: large;
 }
