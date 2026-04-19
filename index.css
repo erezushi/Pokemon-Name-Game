@@ -59,8 +59,13 @@ button {
   font-size: small;
 }
 
-#game-win a {
+#gen-switches > span {
   font-size: medium;
+  margin: 0 0.5em
+}
+
+#game-win a {
+  font-size: unset;
 }
 
 #instructions {

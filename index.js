@@ -19,10 +19,13 @@ const languageButton = document.getElementById('language-button');
 const generationButton = document.getElementById('generation-button');
 const typeButton = document.getElementById('type-button');
 
+const genSwitches = document.getElementById('gen-switches');
+const gensRefresh = document.getElementById('gens-refresh');
+
 const gameWinDiv = document.getElementById('game-win');
 const officialArt = document.getElementById('official-art');
 const winTextSpan = document.getElementById('win-text');
-const playAgain = document.getElementById('play-again');
+const playAgainButton = document.getElementById('play-again');
 //#endregion
 
 const randomArrayEntry = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -34,10 +37,40 @@ const displayStatus = (message) => {
   guessStatus.classList.remove('hidden');
 };
 
+const generations = pokemonList.reduce((set, pokemon) => set.add(pokemon.generation), new Set());
+const activeGenerations = Array.from(generations);
+
 let englishName;
 let allNames = [];
 let guesses = [];
 let availableHints = [];
+
+generations.forEach((gen) => {
+  const genSpan = document.createElement('span');
+
+  const genInput = document.createElement('input');
+  genInput.id = `gen-${gen}`;
+  genInput.type = 'checkbox';
+  genInput.checked = true;
+
+  genInput.addEventListener('click', (event) => {
+    if (event.target.checked) activeGenerations.push(gen);
+    else activeGenerations.splice(activeGenerations.indexOf(gen), 1);
+    
+    gensRefresh.disabled = !Boolean(activeGenerations.length);
+    gensRefresh.classList.remove('hidden');
+  });
+
+  genSpan.appendChild(genInput);
+
+  const genLabel = document.createElement('label');
+  genLabel.htmlFor = `gen-${gen}`;
+  genLabel.innerText = gen;
+
+  genSpan.appendChild(genLabel);
+
+  genSwitches.appendChild(genSpan);
+});
 
 fetch('allPokemon.txt')
   .then((res) => res.text())
@@ -46,7 +79,9 @@ fetch('allPokemon.txt')
   });
 
 const setup = () => {
-  const chosenPokemon = randomArrayEntry(pokemonList);
+  const chosenPokemon = randomArrayEntry(
+    pokemonList.filter((pokemon) => activeGenerations.includes(pokemon.generation)),
+  );
   const { name, generation, type, otherNames } = chosenPokemon;
 
   englishName = name;
@@ -178,14 +213,11 @@ const handleHintClick = (hint) => {
   updateHintButtons();
 };
 
-languageButton.addEventListener('click', () => handleHintClick('language'));
-generationButton.addEventListener('click', () => handleHintClick('generation'));
-typeButton.addEventListener('click', () => handleHintClick('type'));
-
-playAgain.addEventListener('click', () => {
+const playAgain = () => {
   languageHint.classList.add('hidden');
   generationHint.classList.add('hidden');
   typeHint.classList.add('hidden');
+  gensRefresh.classList.add('hidden');
   gameWinDiv.classList.add('hidden');
 
   guessButton.disabled = false;
@@ -200,14 +232,21 @@ playAgain.addEventListener('click', () => {
   updateHintButtons();
 
   setup();
-});
+}
+
+languageButton.addEventListener('click', () => handleHintClick('language'));
+generationButton.addEventListener('click', () => handleHintClick('generation'));
+typeButton.addEventListener('click', () => handleHintClick('type'));
+
+gensRefresh.addEventListener('click', playAgain);
+playAgainButton.addEventListener('click', playAgain);
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     if (gameWinDiv.classList.contains('hidden')) {
       guessButton.click();
     } else {
-      playAgain.click();
+      playAgainButton.click();
     }
   }
 });
