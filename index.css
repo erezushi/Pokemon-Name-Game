@@ -1,77 +1,80 @@
 body {
-    font-family:  'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: xx-large;
-    text-align: center;
+  font-family:
+    'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,
+    sans-serif;
+  font-size: xx-large;
+  text-align: center;
 
-    padding-top: 0.5em;
+  padding-top: 0.5em;
 }
 
-#game-body{
-    width: 50vw;
-    height: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
-    padding: 0.5em;
+#game-body {
+  width: 50vw;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  padding: 0.5em;
 
-    border: 2px solid black;
-    border-radius: 1em;
+  border: 2px solid black;
+  border-radius: 1em;
 
-    font-size: x-large;
+  font-size: x-large;
 }
 
 #hints {
-    font-size: medium;
+  font-size: medium;
 }
 
 #player-input-label {
-    font-size: large;
+  font-size: large;
 }
 
 #player-input {
-    border-radius: 0.5em;
-    font-family: inherit;
-    text-align: center;
+  border-radius: 0.5em;
+  font-family: inherit;
+  text-align: center;
 }
 
 button {
-    padding-left: 1em;
-    padding-right: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
 
-    border-radius: 0.5em;
-    
-    font-family: inherit;
+  border-radius: 0.5em;
+
+  font-family: inherit;
 }
 
 #guess-status {
-    color: indianred;
-    font-size: medium;
+  color: indianred;
+  font-size: medium;
 }
 
 #guesses {
-    font-size: medium;
+  font-size: medium;
 }
 
-#hint-buttons, #hint-buttons > button {
-    font-size: small;
+#hint-buttons,
+#hint-buttons > button {
+  font-size: small;
 }
 
 #game-win a {
-    font-size: medium;
+  font-size: medium;
 }
 
 #instructions {
-    font-size: large;
+  font-size: large;
 }
 
 #instructions {
-    font-size: medium;
-    width: 75vw;
-    
-    margin-left: auto;
-    margin-right: auto;
+  font-size: medium;
+  width: 75vw;
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }

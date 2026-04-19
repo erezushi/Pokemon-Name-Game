@@ -30,8 +30,8 @@ const answerFormat = (name) => name.trim().toLowerCase().replace(/[:.']/, '').re
 const capitalize = (string) => `${string[0].toUpperCase()}${string.substring(1).toLowerCase()}`;
 const guessesFormat = (name) => name.trim().split(' ').map(capitalize).join(' ');
 const displayStatus = (message) => {
-    guessStatus.innerText = message;
-    guessStatus.classList.remove('hidden');
+  guessStatus.innerText = message;
+  guessStatus.classList.remove('hidden');
 };
 
 let englishName;
@@ -40,142 +40,142 @@ let guesses = [];
 let availableHints = [];
 
 fetch('allPokemon.txt')
-    .then((res) => res.text())
-    .then((text) => {
-        allNames = text.split('\n');
-    });
+  .then((res) => res.text())
+  .then((text) => {
+    allNames = text.split('\n');
+  });
 
 const setup = () => {
-    const chosenPokemon = randomArrayEntry(pokemonList);
-    const { name, generation, type, otherNames } = chosenPokemon;
+  const chosenPokemon = randomArrayEntry(pokemonList);
+  const { name, generation, type, otherNames } = chosenPokemon;
 
-    englishName = name;
-    generationText.innerText = generation;
-    typeText.innerText = type;
+  englishName = name;
+  generationText.innerText = generation;
+  typeText.innerText = type;
 
-    const [chosenLanguage, chosenName] = randomArrayEntry(Object.entries(otherNames));
+  const [chosenLanguage, chosenName] = randomArrayEntry(Object.entries(otherNames));
 
-    languageText.innerText = capitalize(chosenLanguage);
+  languageText.innerText = capitalize(chosenLanguage);
 
-    pokemonNameSpan.innerText = chosenName;
-    winTextSpan.innerText = `Correct! ${chosenName} is ${englishName}'s ${capitalize(
-        chosenLanguage
-    )} name!`;
+  pokemonNameSpan.innerText = chosenName;
+  winTextSpan.innerText = `Correct! ${chosenName} is ${englishName}'s ${capitalize(
+    chosenLanguage,
+  )} name!`;
 
-    winTextSpan.appendChild(document.createElement('br'));
+  winTextSpan.appendChild(document.createElement('br'));
 
-    const nameOriginLink = document.createElement('a');
-    nameOriginLink.href = `https://bulbapedia.bulbagarden.net/wiki/${englishName.replace(
-        ' ',
-        '_'
-    )}_(Pokémon)#In_other_languages`;
-    nameOriginLink.innerText = 'Check out their foreign name origins on Bulbapedia!';
-    nameOriginLink.target = '_blank';
+  const nameOriginLink = document.createElement('a');
+  nameOriginLink.href = `https://bulbapedia.bulbagarden.net/wiki/${englishName.replace(
+    ' ',
+    '_',
+  )}_(Pokémon)#In_other_languages`;
+  nameOriginLink.innerText = 'Check out their foreign name origins on Bulbapedia!';
+  nameOriginLink.target = '_blank';
 
-    winTextSpan.appendChild(nameOriginLink);
+  winTextSpan.appendChild(nameOriginLink);
 
-    officialArt.src = `./images/${englishName.replace(':', '')}.webp`;
-    officialArt.alt = `Official artwork of ${englishName}, the correct guess in this round`;
+  officialArt.src = `./images/${englishName.replace(':', '')}.webp`;
+  officialArt.alt = `Official artwork of ${englishName}, the correct guess in this round`;
 };
 setup();
 
 const updateHintButtons = () => {
-    if (availableHints.length) {
-        hintsDiv.classList.remove('hidden');
-    } else {
-        hintsDiv.classList.add('hidden');
-    }
+  if (availableHints.length) {
+    hintsDiv.classList.remove('hidden');
+  } else {
+    hintsDiv.classList.add('hidden');
+  }
 };
 
 const checkForHints = () => {
-    switch (guesses.length) {
-        case 1:
-            availableHints.push('language');
-            languageButton.classList.remove('hidden');
-            break;
+  switch (guesses.length) {
+    case 1:
+      availableHints.push('language');
+      languageButton.classList.remove('hidden');
+      break;
 
-        case 3:
-            availableHints.push('generation');
-            generationButton.classList.remove('hidden');
-            break;
+    case 3:
+      availableHints.push('generation');
+      generationButton.classList.remove('hidden');
+      break;
 
-        case 6:
-            availableHints.push('type');
-            typeButton.classList.remove('hidden');
-            break;
+    case 6:
+      availableHints.push('type');
+      typeButton.classList.remove('hidden');
+      break;
 
-        default:
-            break;
-    }
+    default:
+      break;
+  }
 
-    updateHintButtons();
+  updateHintButtons();
 };
 
 playerInput.addEventListener('input', () => guessStatus.classList.add('hidden'));
 
 guessButton.addEventListener('click', () => {
-    const input = answerFormat(playerInput.value);
-    console.log(input);
+  const input = answerFormat(playerInput.value);
+  console.log(input);
 
-    if (allNames.some((name) => answerFormat(name) === input)) {
-        const answer = answerFormat(englishName);
+  if (allNames.some((name) => answerFormat(name) === input)) {
+    const answer = answerFormat(englishName);
 
-        if (input === answer) {
-            gameWinDiv.classList.remove('hidden');
-            guessButton.disabled = true;
-            playerInput.disabled = true;
-        } else if (!guesses.map(answerFormat).includes(input)) {
-            displayStatus('Not quite right! try again');
+    if (input === answer) {
+      gameWinDiv.classList.remove('hidden');
+      guessButton.disabled = true;
+      playerInput.disabled = true;
+    } else if (!guesses.map(answerFormat).includes(input)) {
+      displayStatus('Not quite right! try again');
 
-            if (!guesses.length) {
-                const titleSpan = document.createElement('span');
-                titleSpan.innerText = 'Guesses:';
+      if (!guesses.length) {
+        const titleSpan = document.createElement('span');
+        titleSpan.innerText = 'Guesses:';
 
-                guessesDiv.appendChild(titleSpan);
-                guessesDiv.appendChild(document.createElement('br'));
-            }
+        guessesDiv.appendChild(titleSpan);
+        guessesDiv.appendChild(document.createElement('br'));
+      }
 
-            const newGuess = document.createElement('span');
-            newGuess.innerText = guessesFormat(playerInput.value);
+      const newGuess = document.createElement('span');
+      newGuess.innerText = guessesFormat(playerInput.value);
 
-            guessesDiv.appendChild(newGuess);
-            guessesDiv.appendChild(document.createElement('br'));
+      guessesDiv.appendChild(newGuess);
+      guessesDiv.appendChild(document.createElement('br'));
 
-            guesses.push(answerFormat(playerInput.value));
+      guesses.push(answerFormat(playerInput.value));
 
-            checkForHints();
-        } else {
-            displayStatus("You've already tried that one");
-        }
+      checkForHints();
     } else {
-        displayStatus('Maybe try guessing an actual Pokémon name');
+      displayStatus("You've already tried that one");
     }
+  } else {
+    displayStatus('Maybe try guessing an actual Pokémon name');
+  }
 });
 
 const handleHintClick = (hint) => {
-    availableHints = availableHints.filter((item) => item !== hint);
+  availableHints = availableHints.filter((item) => item !== hint);
 
-    switch (hint) {
-        case 'language':
-            languageButton.classList.add('hidden');
-            languageHint.classList.remove('hidden');
-            break;
+  switch (hint) {
+    case 'language':
+      languageButton.classList.add('hidden');
+      languageHint.classList.remove('hidden');
+      break;
 
-        case 'generation':
-            generationButton.classList.add('hidden');
-            generationHint.classList.remove('hidden');
-            break;
+    case 'generation':
+      generationButton.classList.add('hidden');
+      generationHint.classList.remove('hidden');
+      break;
 
-        case 'type':
-            typeButton.classList.add('hidden');
-            typeHint.classList.remove('hidden');
-            break;
+    case 'type':
+      typeButton.classList.add('hidden');
+      typeHint.classList.remove('hidden');
+      break;
 
-        default:
-            break;
-    }
+    default:
+      break;
+  }
 
-    updateHintButtons();
+  updateHintButtons();
 };
 
 languageButton.addEventListener('click', () => handleHintClick('language'));
@@ -183,31 +183,31 @@ generationButton.addEventListener('click', () => handleHintClick('generation'));
 typeButton.addEventListener('click', () => handleHintClick('type'));
 
 playAgain.addEventListener('click', () => {
-    languageHint.classList.add('hidden');
-    generationHint.classList.add('hidden');
-    typeHint.classList.add('hidden');
-    gameWinDiv.classList.add('hidden');
+  languageHint.classList.add('hidden');
+  generationHint.classList.add('hidden');
+  typeHint.classList.add('hidden');
+  gameWinDiv.classList.add('hidden');
 
-    guessButton.disabled = false;
-    playerInput.disabled = false;
+  guessButton.disabled = false;
+  playerInput.disabled = false;
 
-    playerInput.value = '';
-    playerInput.focus();
+  playerInput.value = '';
+  playerInput.focus();
 
-    guessesDiv.innerHTML = '';
-    guesses = [];
-    availableHints = [];
-    updateHintButtons();
+  guessesDiv.innerHTML = '';
+  guesses = [];
+  availableHints = [];
+  updateHintButtons();
 
-    setup();
+  setup();
 });
 
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        if (gameWinDiv.classList.contains('hidden')) {
-            guessButton.click();
-        } else {
-            playAgain.click();
-        }
+  if (event.key === 'Enter') {
+    if (gameWinDiv.classList.contains('hidden')) {
+      guessButton.click();
+    } else {
+      playAgain.click();
     }
+  }
 });
